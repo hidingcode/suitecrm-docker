@@ -1,0 +1,4 @@
+# Ignore SuiteCRM files (downloaded and extracted by setup.sh)
+suitecrm/
+
+

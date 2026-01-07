@@ -1,0 +1,33 @@
+services:
+  suitecrm-php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: suitecrm-php
+    restart: unless-stopped
+    ports:
+     - "9000:9000"
+    volumes:
+      - ./suitecrm:/var/www/html
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    working_dir: /var/www/html
+    networks:
+      - suitecrm-net
+
+  suitecrm-db:
+    image: mysql:8.0
+    container_name: suitecrm-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: suitecrmrootpass
+      MYSQL_DATABASE: suitecrm
+      MYSQL_USER: suitecrm
+      MYSQL_PASSWORD: suitecrmpass
+    volumes:
+      - ./suitecrm/db:/var/lib/mysql
+    networks:
+      - suitecrm-net
+
+networks:
+  suitecrm-net:
+    driver: bridge
